@@ -23,23 +23,23 @@
             url: 'ws://127.0.0.1:9090'
         });
 
-
-        var imageTopic = new ROSLIB.Topic({
-            ros: ros,
-            name: '/image_publisher_1646041938373710952/image_raw/compressedDepth',
-            messageType: 'sensor_msgs/CompressedImage'
+        var listener = new ROSLIB.Topic({
+            ros : ros,
+            name : '/image_publisher_1646122924443196226/image_raw/compressed',
+            messageType : 'sensor_msgs/CompressedImage'
         });
 
-        imageTopic.subscribe(function (message) {
-            console.log(message);
-            imageTopic.unsubscribe();
+        listener.subscribe(function(message) {
+            console.log('Received message on ' + listener.name + ': ' + message.data);
+            var image = document.getElementById("base64image");
+            image.src = 'data:image/jpeg;base64,'+message.data+''
         });
 
     </script>
 
 </head>
 <body>
-    <img src="http://localhost:8080/stream?topic=/image_publisher_1646041938373710952/image_raw/compressed" />
-    <img src="http://localhost:9090/stream?topic=/image_publisher_1645695227829989770/image_raw" />
+    <img style='display:block; width:100px;height:100px;' id='base64image'
+    src='data:image/jpeg;base64, LzlqLzRBQ... <!-- Base64 data -->' />
 </body>
 </html>
